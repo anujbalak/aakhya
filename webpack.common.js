@@ -15,4 +15,27 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
-}
+    optimization: {
+        runtimeChunk: 'single',
+    },
+    module: {
+		rules: [
+			{
+				test: /\.css$/i,
+				use: ['style-loader', 'css-loader'],
+			},
+			{
+				test: /\.html$/i,
+				use: ['html-loader'],
+			},
+			{
+				test: /\.(woff|woff2|eot|ttf|otf)$/i,
+				type: 'asset/resource',
+			},
+			{
+				test: /\.(png|jpeg|jpf|svg|gif)$/i,
+				type: 'asset/resource',
+			},
+		],
+	},
+};

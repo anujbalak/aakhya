@@ -1,3 +1,67 @@
 * {
-    font-family: 'josefin Sans Variable', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* font-family: 'josefin Sans Variable', sans-serif; */
+}
+
+body {
+    color: #eee;
+    background-color: #1d1c1b;
+    font-family: 'Syne Mono', monospace;
+    font-size: 1.5rem;
+    display: grid;
+    grid-template-rows: 100px 70px 1fr;
+    /* font-family: 'Share Tech Mono', monospace, 'Syne Mono'; */
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    
+}   
+
+/******************************* header **************************/
+header {
+    justify-content: space-between;
+    align-items: center;
+}
+.dir-container {
+    margin-left: 10px;
+    
+}
+.date-container {
+    margin-right: 10px;
+}
+
+.present-date {
+    font-size: 1.2rem;
+    opacity: 40%;
+}
+
+.title-text {
+    opacity: 70%;
+}
+
+.dirName {
+    color: #ff8576;
+}
+
+/**************************** nav ****************************/
+
+.nav-container {
+    margin: 10px 0 10px 0;
+    align-content: center;
+    justify-content: center;
+    gap: 15%;
+    /* background-color: #eee; */
+}
+
+.todo-btn, .project-btn {
+    font-size: 1.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    border: none;
+    background-color: transparent;
+    color: #eee;
+    padding: 7px 15px;
 }
