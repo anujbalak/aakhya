@@ -10,6 +10,7 @@ function home() {
     const title = document.createElement('div');
     const dirName = document.createElement('p');
     const dateContainer = document.createElement('div');
+    const currentTime = document.createElement('span');
     const presentDate = document.createElement('p');
     const navContainer = document.createElement('div');
     const todoBtnContainer = document.createElement('div');
@@ -24,6 +25,7 @@ function home() {
     title.classList.add('title-text');
     dirName.classList.add('dirName');
     dateContainer.classList.add('date-container');
+    currentTime.classList.add('current-time');
     presentDate.classList.add('present-date');
     navContainer.classList.add('nav-container','flex-container');
     todoBtnContainer.classList.add('todo-btn-container');
@@ -34,6 +36,8 @@ function home() {
 
     title.textContent = 'aakhya';
     dirName.textContent = '/todos'
+    let timesNow = format(new Date(), 'HH:MM');
+    currentTime.textContent = timesNow;
     let today = format(new Date(), "dd/MM/yyyy");
     presentDate.textContent = today;
     todoBtn.textContent = 'Todo';
@@ -44,6 +48,7 @@ function home() {
     header.appendChild(dateContainer);
     dirContainer.appendChild(title);
     dirContainer.appendChild(dirName);
+    dateContainer.appendChild(currentTime);
     dateContainer.appendChild(presentDate);
     navContainer.appendChild(todoBtnContainer);
     navContainer.appendChild(projectBtnContainer);
@@ -66,7 +71,6 @@ function home() {
                     changeBottomBorder();
                     break;
                 case projectBtn:
-                    console.log('project button clicked')
                     dirName.textContent = '/projects'
                     changeBottomBorder(projectBtn);
                     break;

@@ -5,6 +5,10 @@
     /* font-family: 'josefin Sans Variable', sans-serif; */
 }
 
+*:focus {
+    outline: none;
+}
+
 body {
     color: #eee;
     background-color: #1d1c1b;
@@ -64,4 +68,230 @@ header {
     background-color: transparent;
     color: #eee;
     padding: 7px 15px;
+}
+
+
+/******************** newTodo **************** */
+#todoPage, #projectPage {
+    display: grid;
+    /* grid-template-rows: minmax(min-content, 1fr) 1fr; */
+}
+
+.grid-container {
+    display: grid;
+}
+
+.newTodo-container {
+    background-color: #292726;
+    margin: 3%;
+    padding: 5px;
+    border: #eee solid 2px;
+}
+
+#placeholder {
+    background-color: transparent;
+    color: #eee;
+    font-size: 1.2rem;
+    border: none;
+    max-width: 160px; 
+}
+
+#newTodo {
+    line-height: 1.5;
+    resize: none;
+    margin-left: 10px;
+    color: #eee;
+    border: none;
+    font-size: 1.4rem;
+    background-color: transparent;
+}
+
+#addBtn, .new-project-btn {
+    font-size: 2rem;
+    width: 60%;
+    color: #eee;
+    background-color: transparent;
+    place-self: center;
+    border: 1px solid #ff8576;
+}
+
+#addBtn:hover, #addBtn:focus, .new-project-btn:hover, .new-project-btn:focus {
+    background-color: #ff8576;
+    color: #eee;
+}
+
+/* -----------------placeholders--------------------- */
+/* 0::placeholder {
+    text-align: center;
+    opacity: 40%;
+}
+
+/* 
+::-webkit-input-placeholder {
+    text-align: center;
+} 
+*/
+ 
+/* :-moz-placeholder {
+    text-align: center;  
+} */
+ 
+/* ::-moz-placeholder {  
+    text-align: center;  
+} */
+ 
+/* :-ms-input-placeholder {  
+    text-align: center; 
+} */
+
+/* ----------------task---------------------- */
+
+hr {
+    margin: 10px;
+    width: 90%;
+    color: #eee;
+    opacity: 40%;
+    place-self: center;
+}
+
+.task-container {
+    margin: 3%;
+    border-bottom: solid 1.5px #ff8576;
+    display: grid;
+    grid-template-columns: 25px 1fr 25px;
+}
+
+input.checkbox:checked {
+    border: #eee;
+    color: #ff8576;
+    background-color: transparent;
+}
+
+.task-text {
+    align-self: center;
+    font-size: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+
+.remove-task-btn {
+    background-color: #ff8576;
+    color:#292726;
+    overflow: hidden;
+    max-height: 35px;
+    margin: 10px 10px 10px 5px;
+    padding: 0px 0.3em;
+    border: none;
+    font-size: 2rem;
+    place-self: center;
+}
+
+/* ------------------------------ projects--------------------------- */
+
+.new-project-btn-container, .new-project-container {
+    grid-row: 1 / 2;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.new-project-btn {
+    width: 80%;
+    padding: 10px;
+}
+
+.separator {
+    grid-row: 2 / 3;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.separator::after,
+.separator::before {
+    content: ' ';
+    flex: 1;
+    margin: 0px 20px;
+    opacity: 40%;
+    border-bottom: 1px solid #eee;
+}
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+.separator:not(:empty)::after {
+    margin-left: .25em;
+}
+
+.existing-projects-container {
+    grid-row: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+}
+
+.new-project-container {
+    display: flex;
+    width: 90%;
+    justify-self: center;
+    border: solid #ff8576 2px;
+}
+
+#new-project-name {
+    width: 95%;
+    color: #eee;
+    background-color: transparent;
+    font-size: 1.3rem;
+    padding:10px;
+    border: none;
+}
+
+.add-new-project-btn {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
+    border-left: 2px solid #ff8576;
+    padding: 10px;
+    width: 50px;
+    color: #eee;
+    justify-content: end;
+}
+
+.project-icon {
+    filter: url('./assets/folder-logo.svg');
+    width: 30px;
+    fill: red;
+
+    filter: invert(100%) hue-rotate(120deg);
+
+}
+
+/* ---------------project------------------- */
+.project-container {
+    display: grid;
+    grid-template-columns: 30px 1fr 30px;
+    justify-content: center;
+    gap: 5px;
+    width: 90%;
+    border-left: 1px solid #ff8576;
+    padding-left: 5px;
+    place-self: center;      
+}
+
+.project-name {
+    font-family: 'Syne Mono', monospace;
+}
+
+.delete-project-btn {
+    background-color: transparent;
+    color: #ff8576;
+    font-size: 1.2rem;
+    border: 1px solid #ff8576;
+    opacity: 50%;
+}
+
+.delete-project-btn:hover, .delete-project-btn:focus {
+    opacity: 90%;
+    background-color: #ff8576;
+    color: #eee;
 }
