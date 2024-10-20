@@ -1,5 +1,5 @@
-function todo() {
-    const todoPage = document.createElement('div');
+function projectFile() {
+    const projectFilePage = document.createElement('div');
     const newTodoContainer = document.createElement('div');
     const newTodo = document.createElement('textarea')
     const placeHolder = document.createElement('span');
@@ -7,7 +7,7 @@ function todo() {
     const dividerLine = document.createElement('hr');
     const todoList = document.createElement('div');
 
-    todoPage.setAttribute('id', 'todoPage');
+    projectFilePage.setAttribute('id', 'projectFilePage');
     newTodoContainer.classList.add('newTodo-container', 'grid-container');
     newTodo.setAttribute("name", 'newTodo');
     newTodo.setAttribute('id', 'newTodo');
@@ -17,15 +17,15 @@ function todo() {
     addBtn.setAttribute('id', 'addBtn');
     todoList.classList.add('todolist');
 
-    todoPage.appendChild(newTodoContainer);
+    projectFilePage.appendChild(newTodoContainer);
     newTodoContainer.appendChild(placeHolder);
     newTodoContainer.appendChild(newTodo);
-    todoPage.appendChild(addBtn);
-    todoPage.appendChild(dividerLine);
-    todoPage.appendChild(todoList);
+    projectFilePage.appendChild(addBtn);
+    projectFilePage.appendChild(dividerLine);
+    projectFilePage.appendChild(todoList);
 
     const content = document.querySelector('#content')
-    content.appendChild(todoPage);
+    content.appendChild(projectFilePage);
 
     newTodo.oninput = function() {
         newTodo.style.height = '';
@@ -58,30 +58,30 @@ function todo() {
         checkbox.setAttribute('type', 'checkbox')
         checkbox.setAttribute('name', 'checkbox');
         removeTaskBtn.textContent = 'ˣ';
-        
-        
+    
+    
         taskContainer.appendChild(checkbox);
         taskContainer.appendChild(taskText);
         taskContainer.appendChild(removeTaskBtn);
         todoList.appendChild(taskContainer);
         
         let isChecked = false;
-        
+    
         checkbox.addEventListener('click', () => {
             switch (isChecked) {
                 case true:
                     isChecked = false;
                     break;
-                    case false:
-                        isChecked = true;
-                        break;
-                        default:
-                            isChecked = false;
+                case false:
+                    isChecked = true;
+                    break;
+                default:
+                    isChecked = false;
                 break;
             }
             return checkboxState(isChecked);
         })
-        
+
         function checkboxState(checkedValue) {
             if (checkedValue == true) {
                 taskText.setAttribute('style', 'text-decoration: line-through; font-style: italic; opacity:50%')
@@ -90,45 +90,19 @@ function todo() {
             }
         }
         
-        const currentTodo = taskText.textContent;
         removeTaskBtn.addEventListener('click', () => {
-            removeTodo(taskContainer, currentTodo);
+            taskContainer.remove()    
+            const removedTaskIndex = tasklist.findIndex(({ taskContent }) => taskContent === taskText.textContent );
+            tasklist.splice(removedTaskIndex, 1);
         })
-    }
-    function removeTodo(taskContainer, currentTodo) {
-        const removedTaskIndex = tasklist.findIndex(({ taskContent }) => taskContent === currentTodo );
-        tasklist.splice(removedTaskIndex, 1);
-        removeSavedTodo(currentTodo)
-        taskContainer.remove()    
-    }
-    
-    function removeSavedTodo(currentTodo) {
-        const SAVED_TODO = JSON.parse(localStorage.getItem('general todos'));
-        
     }
     
     function addTaskInDOM() {
         const lastElementIndex = tasklist.length - 1;
         const taskText = tasklist[lastElementIndex].taskContent;
         task(taskText);
+        console.log(tasklist[0])
     }
-    
-    let currentTodos = 0
-    function saveTodo(taskText) { 
-        localStorage.setItem('general todos', JSON.stringify(tasklist));
-        currentTodos += 1;
-    }
-    
-    window.onload = (event) => {
-        const availableTodos = JSON.parse(localStorage.getItem('general todos'));
-        if (availableTodos.length > 0) {
-            for (const todo in availableTodos) {
-                const taskValue = availableTodos[todo].taskContent
-                task(taskValue)
-            }
-        }
-     };
-    
 
     function createNewTask() {
         addBtn.addEventListener('click', () => {
@@ -140,7 +114,7 @@ function todo() {
                 newTodo.style.setProperty('--col', '#eee')
                 const newTask = new Task(newTodo.value);
                 tasklist.push(newTask);
-                saveTodo(newTodo.value)
+                console.log(tasklist);
                 addTaskInDOM();
                 newTodo.value = '';
             }
@@ -149,4 +123,4 @@ function todo() {
     createNewTask();
 }
 
-export {todo};
+export { projectFile };

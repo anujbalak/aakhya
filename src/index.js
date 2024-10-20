@@ -2,6 +2,7 @@ import {home} from './home.js'
 import './style.css'
 import { todo } from './todo.js';
 import { projects } from './projects.js';
+import { projectFile } from './project-file.js';
 home();
 
 
@@ -10,15 +11,21 @@ const projectsBtn = document.querySelector('.project-btn');
 
 const btns = [todoBtn, projectsBtn];
 
-let defaultTab = 'todo';
+let defaultTab = '';
 
 function tabSwitcher(defaultTab) {
+   const todoPage = document.querySelector('#todoPage');
+   const projectPage = document.querySelector('#projectPage');
     switch(defaultTab) {
         case 'todo':
-            todo();
+            if (todoPage === null) {
+                todo();
+            }
             break;
         case 'projects':
-            projects();
+            if (projectPage === null) {
+                projects();
+            }
             break;
         default:
             todo();
@@ -30,11 +37,14 @@ tabSwitcher();
 function rmTabs(defaultTab) {
     if (defaultTab === 'todo' && defaultTab !== 'projects') {
         const projectPage = document.querySelector('#projectPage');
-        projectPage.remove()
+        if (projectPage !== null) {
+            projectPage.remove()
+        } else { }
     } else if (defaultTab === 'projects' && defaultTab !== 'todo') {
         const todoPage = document.querySelector("#todoPage");
-        todoPage.remove();
-        console.log('projects');
+        if (todoPage !== null) {
+            todoPage.remove();
+        }
     } else {};
 }
  
@@ -57,3 +67,15 @@ btns.forEach(btn => {
         }
     })
 });
+
+
+
+// function code() {
+//     const projectIcon = document.querySelector('img');
+//     projectIcon.addEventListener('click', () => {
+//         console.log('icon');
+//     })
+// }
+
+// setTimeout(code, 5*1000)
+
