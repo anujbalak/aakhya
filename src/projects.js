@@ -48,6 +48,8 @@ function projects() {
         projectPage.appendChild(newProjectContainer);
 
         addNewProject(addNewProjectBtn, newProjectNameInput, newProjectContainer);
+
+        updateCurrentFolderName(addNewProjectBtn)
     })
     
     
@@ -105,11 +107,26 @@ function projects() {
     }
 
     function removeProject(projectContainer, projectName) {
+        removeProjectsFromProjectlist(projectName.textContent);
+        removeSavedProjects(projectName.textContent)
         projectContainer.remove();
 
-        const removedProjectIndex = projectList.findIndex(({ projectContent }) => projectContent === projectName.textContent );
-
+    }
+    
+    function removeProjectsFromProjectlist(projectName) {
+        const removedProjectIndex = projectList.findIndex(({ projectContent }) => projectContent === projectName );
         projectList.splice(removedProjectIndex, 1);
+
+    }
+
+    function removeSavedProjects(projectName) {
+        const SAVED_PROJECTS = JSON.parse(localStorage.getItem('project names'));
+        for (let project in SAVED_PROJECTS) {
+            if(SAVED_PROJECTS[project].projectContent === projectName) {
+                localStorage.removeItem('project names');
+                saveProjectName();
+            }
+        }
     }
 
     function checkBlankProjectName(projectName) {
@@ -133,34 +150,68 @@ function projects() {
         createNewProject(recentProject);
     }
 
+    function saveProjectName() {
+        localStorage.setItem('project names', JSON.stringify(projectList));
+    }
+
+    
     function addNewProject(addBtn, inputName, newProjectContainer) {
         addBtn.addEventListener('click', () => {
             const isProjectNameNotExist = checkBlankProjectName(inputName);
             changePlaceholder(isProjectNameNotExist, inputName);
-
+            
             if (isProjectNameNotExist === false) {
                 activateAddProjectBtn(newProjectContainer);
                 // removeProjectName(inputName);
                 updateProjectList(inputName);
+                saveProjectName();
                 addProjectInDOM();
             } else if (isProjectNameNotExist === true) {
-
+                
             } else {
-
+                
             }
         })
     };
-
+    
     const separator = document.createElement('span');
     separator.classList.add('separator');
     
     separator.textContent = 'Existing Projects';
     projectPage.appendChild(separator);
     
-    
     const existingProjectsContainer = document.createElement('div');
     existingProjectsContainer.classList.add('existing-projects-container');
     projectPage.appendChild(existingProjectsContainer);
+    
+    
+    const availableProjects = JSON.parse(localStorage.getItem('project names'));
+    if (availableProjects.length > 0) {
+        for (let project in availableProjects) {
+            const PROJECT_NAME = availableProjects[project].projectContent;
+            const NEW_PROJECT = new Project(PROJECT_NAME);
+            projectList.push(NEW_PROJECT);
+            addProjectInDOM();
+        }
+    }
+
+    function updateCurrentFolderName(addBtn) {
+        addBtn.addEventListener('click', () => {
+            currentFolder();
+        })
+    }
+
+    function currentFolder() {
+        const projectNodeList = document.querySelectorAll('p.project-name');
+        projectNodeList.forEach((projectNode) => {
+            const projectName = projectNode.textContent;
+            projectNode.addEventListener('click', () => {
+                localStorage.setItem(projectName, projectName);
+                localStorage.setItem('current-folder',projectName)
+            })
+        });
+    }
+    currentFolder();
 }
 
 export { projects }

@@ -157,7 +157,14 @@ hr {
     margin: 3%;
     border-bottom: solid 1.5px #ff8576;
     display: grid;
-    grid-template-columns: 25px 1fr 25px;
+    grid-template-columns: 25px 1fr 30px;
+}
+input.checkbox {
+    /* -moz-appearance: none;
+    appearance: none;
+    -webkit-appearance: none; */
+    background-color: #ff8576;
+    
 }
 
 input.checkbox:checked {
@@ -177,13 +184,17 @@ input.checkbox:checked {
 .remove-task-btn {
     background-color: #ff8576;
     color:#292726;
-    overflow: hidden;
     max-height: 35px;
-    margin: 10px 10px 10px 5px;
+    /* margin: 10px 10px 10px 5px; */
     padding: 0px 0.3em;
     border: none;
     font-size: 2rem;
     place-self: center;
+    grid-column: 3 / 4;
+}
+
+.remove-task-btn:hover, .remove-task-btn:focus {
+    box-shadow: 3px 3px 0px #a2554b;
 }
 
 /* ------------------------------ projects--------------------------- */
@@ -205,6 +216,7 @@ input.checkbox:checked {
     display: flex;
     align-items: center;
     text-align: center;
+    margin-bottom: 1em;
 }
 
 .separator::after,
@@ -232,6 +244,7 @@ input.checkbox:checked {
 .new-project-container {
     display: flex;
     width: 90%;
+    padding: 3px;
     justify-self: center;
     border: solid #ff8576 2px;
 }
@@ -298,3 +311,37 @@ input.checkbox:checked {
     background-color: #ff8576;
     color: #eee;
 }
+
+/* ------------------file---------------------------- */
+
+#projectFilePage {
+    display: grid;
+}
+
+#projectFilePage div.todolist div.task-container {
+    grid-template-rows: 1fr minmax(20px);
+}
+
+#projectFilePage div.todolist div.task-container p.task-text {
+}
+
+#projectFilePage div.todolist div.task-container div.task-folder-container {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: end;
+    width: fit-content;
+    padding: 0.05em 0.2em;
+    margin-bottom: 0.1em;
+    margin-right: 0.1em;
+    background-color: #ae4335;
+}
+
+#projectFilePage div.todolist div.task-container div.task-folder-container p.task-folder-name {
+    font-size: 0.845rem;
+    font-style: italic;
+    color: #eee;
+    font-weight: 600;
+}
+

@@ -11,12 +11,13 @@ const projectsBtn = document.querySelector('.project-btn');
 
 const btns = [todoBtn, projectsBtn];
 
-let defaultTab = '';
+let currentTab = 'todo';
 
-function tabSwitcher(defaultTab) {
+function tabSwitcher(currentTab) {
    const todoPage = document.querySelector('#todoPage');
    const projectPage = document.querySelector('#projectPage');
-    switch(defaultTab) {
+   const projectFilePage = document.querySelector('#projectFilePage')
+    switch(currentTab) {
         case 'todo':
             if (todoPage === null) {
                 todo();
@@ -27,30 +28,45 @@ function tabSwitcher(defaultTab) {
                 projects();
             }
             break;
+        case 'project-file':
+            if ( projectFilePage === null) {
+                projectFile();
+            }
         default:
-            todo();
+            // todo();
             break;
     }
 }
-tabSwitcher();
+tabSwitcher(currentTab);
 
-function rmTabs(defaultTab) {
-    if (defaultTab === 'todo' && defaultTab !== 'projects') {
-        const projectPage = document.querySelector('#projectPage');
+function rmTabs(currentTab) {
+    const todoPage = document.querySelector("#todoPage");
+    const projectPage = document.querySelector('#projectPage');
+    const projectFilePage = document.querySelector('div#projectFilePage');        
+    if (currentTab === 'todo' && currentTab !== 'projects' && currentTab !== 'project-file') {
         if (projectPage !== null) {
             projectPage.remove()
-        } else { }
-    } else if (defaultTab === 'projects' && defaultTab !== 'todo') {
-        const todoPage = document.querySelector("#todoPage");
+        } else if (projectFilePage !== null) {
+            projectFilePage.remove();
+        }
+    } else if (currentTab === 'projects' && currentTab !== 'todo' && currentTab !== 'project-file') {
         if (todoPage !== null) {
             todoPage.remove();
+        } else if (projectFilePage !== null) {
+            projectFilePage.remove();
         }
-    } else {};
+    } else if ( currentTab === 'project-file' && currentTab !== 'projects' && currentTab !== 'todo') {
+        if (todoPage !== null) {
+            todoPage.remove()
+        } else if ( projectPage !== null) {
+            projectPage.remove();
+        }
+
+    };
 }
  
 btns.forEach(btn => {
     btn.addEventListener('click', () => {
-        let currentTab = defaultTab;
         switch (btn) {
             case todoBtn:
                 currentTab = 'todo';
@@ -61,6 +77,8 @@ btns.forEach(btn => {
                 currentTab = 'projects';
                 rmTabs(currentTab);
                 tabSwitcher(currentTab);
+                callProjectFile();
+                updateFileList();
                 break;        
             default:
                 break;
@@ -69,13 +87,48 @@ btns.forEach(btn => {
 });
 
 
+function selectFolder() {
+    const PROJECT_ICONS = document.querySelectorAll('img.project-icon');
+    const PROJECT_NAMES = document.querySelectorAll('p.project-name');
+    
+    const PROJECT = [];
+    PROJECT_ICONS.forEach(icon => {
+        PROJECT.push(icon);
+    })
+    PROJECT_NAMES.forEach(name => {
+        PROJECT.push(name);
+    })
+    return PROJECT;
 
-// function code() {
-//     const projectIcon = document.querySelector('img');
-//     projectIcon.addEventListener('click', () => {
-//         console.log('icon');
-//     })
-// }
+}
 
-// setTimeout(code, 5*1000)
+function callProjectFile() {
+    const AVAILABLE_PROJECTS = JSON.parse(localStorage.getItem('project names'));
+    
+    if (AVAILABLE_PROJECTS.length > 0) {
+        const FOLDER = selectFolder();
+        FOLDER.forEach(project => {
+            project.addEventListener('click', () => {
+                loadProjectFile();
+            });
+        })
+    }
+}
 
+function loadProjectFile() {
+    currentTab = 'project-file';
+    rmTabs(currentTab)
+    tabSwitcher(currentTab);
+}
+
+function updateFileList() {
+    const NEW_PROJECT_BTN = document.querySelector('button.new-project-btn');
+
+    NEW_PROJECT_BTN.addEventListener('click', () => {
+        const NEW_PROJECT_ADD_BTN = document.querySelector('button.add-new-project-btn');
+
+        NEW_PROJECT_ADD_BTN.addEventListener('click', () => {
+            callProjectFile();
+        }); 
+    }); 
+}
