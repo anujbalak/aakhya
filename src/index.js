@@ -3,13 +3,15 @@ import './style.css'
 import { todo } from './todo.js';
 import { projects } from './projects.js';
 import { projectFile } from './project-file.js';
+import { completedTasks } from './completed-tasks.js';
 home();
 
 
 const todoBtn = document.querySelector('.todo-btn');
 const projectsBtn = document.querySelector('.project-btn');
+const completedTaskBtn = document.querySelector('.completed-tasks-btn')
 
-const btns = [todoBtn, projectsBtn];
+const btns = [todoBtn, projectsBtn, completedTaskBtn];
 
 let currentTab = 'todo';
 
@@ -17,7 +19,8 @@ function tabSwitcher(currentTab) {
    const todoPage = document.querySelector('#todoPage');
    const projectPage = document.querySelector('#projectPage');
    const projectFilePage = document.querySelector('#projectFilePage')
-    switch(currentTab) {
+   const completedTaskPage = document.querySelector('div#completedTaskPage') 
+   switch(currentTab) {
         case 'todo':
             if (todoPage === null) {
                 todo();
@@ -32,6 +35,12 @@ function tabSwitcher(currentTab) {
             if ( projectFilePage === null) {
                 projectFile();
             }
+            break;
+        case 'completed-task-page':
+            if (completedTaskPage === null) {
+                completedTasks()
+            }
+            break;
         default:
             // todo();
             break;
@@ -42,27 +51,43 @@ tabSwitcher(currentTab);
 function rmTabs(currentTab) {
     const todoPage = document.querySelector("#todoPage");
     const projectPage = document.querySelector('#projectPage');
-    const projectFilePage = document.querySelector('div#projectFilePage');        
-    if (currentTab === 'todo' && currentTab !== 'projects' && currentTab !== 'project-file') {
+    const projectFilePage = document.querySelector('div#projectFilePage'); 
+    const completedTaskPage = document.querySelector('div#completedTaskPage')
+
+    if (currentTab === 'todo' && currentTab !== 'projects' && currentTab !== 'project-file' && currentTab !== 'completed-task-page') {
         if (projectPage !== null) {
             projectPage.remove()
         } else if (projectFilePage !== null) {
             projectFilePage.remove();
+        } else if (completedTaskPage !== null) {
+            completedTaskPage.remove()
         }
-    } else if (currentTab === 'projects' && currentTab !== 'todo' && currentTab !== 'project-file') {
+    } else if (currentTab === 'projects' && currentTab !== 'todo' && currentTab !== 'project-file' && currentTab !== 'completed-task-page') {
         if (todoPage !== null) {
             todoPage.remove();
         } else if (projectFilePage !== null) {
             projectFilePage.remove();
+        } else if (completedTaskPage !== null) {
+            completedTaskPage.remove()
         }
-    } else if ( currentTab === 'project-file' && currentTab !== 'projects' && currentTab !== 'todo') {
+    } else if ( currentTab === 'project-file' && currentTab !== 'projects' && currentTab !== 'todo' && currentTab !== 'completed-task-page') {
         if (todoPage !== null) {
             todoPage.remove()
         } else if ( projectPage !== null) {
             projectPage.remove();
+        } else if (completedTaskPage !== null) {
+            completedTaskPage.remove()
         }
 
-    };
+    } else if (currentTab !== 'project-file' && currentTab !== 'projects' && currentTab !== 'todo' && currentTab === 'completed-task-page' ) {
+        if (todoPage !== null) {
+            todoPage.remove()
+        } else if ( projectPage !== null) {
+            projectPage.remove();
+        } else if (projectFilePage !== null) {
+            projectFilePage.remove()
+        }
+    }
 }
  
 btns.forEach(btn => {
@@ -72,6 +97,7 @@ btns.forEach(btn => {
                 currentTab = 'todo';
                 rmTabs(currentTab);
                 tabSwitcher(currentTab);
+                updateProjectNameBtn(currentTab);
                 break;
             case projectsBtn:
                 currentTab = 'projects';
@@ -79,7 +105,13 @@ btns.forEach(btn => {
                 tabSwitcher(currentTab);
                 callProjectFile();
                 updateFileList();
-                break;        
+                updateProjectNameBtn(currentTab)
+                break;
+            case completedTaskBtn:
+                currentTab = 'completed-task-page';
+                rmTabs(currentTab);
+                tabSwitcher(currentTab);        
+                updateProjectNameBtn(currentTab);
             default:
                 break;
         }
@@ -99,21 +131,44 @@ function selectFolder() {
         PROJECT.push(name);
     })
     return PROJECT;
-
 }
 
 function callProjectFile() {
     const AVAILABLE_PROJECTS = JSON.parse(localStorage.getItem('project names'));
     
-    if (AVAILABLE_PROJECTS.length > 0) {
+    if (AVAILABLE_PROJECTS != null) {
         const FOLDER = selectFolder();
         FOLDER.forEach(project => {
             project.addEventListener('click', () => {
                 loadProjectFile();
+                updateDirName();
+                updateProjectNameBtn();
             });
         })
     }
 }
+
+
+function updateDirName() {
+    const dirName = document.querySelector('.dirName');
+    dirName.textContent = `.../${localStorage.getItem('current-folder')}`;
+    
+}
+
+function updateProjectNameBtn() {
+    const projectBtn = document.querySelector('.project-btn');
+    
+    if (currentTab === 'todo') {
+        projectBtn.textContent = 'Projects'    
+    } else if ( currentTab === 'projects') {
+        projectBtn.textContent = 'Projects'
+    } else if ( currentTab === 'completed-task-page') {
+        projectBtn.textContent = 'Projects'
+    } else { 
+        projectBtn.textContent = `Projects/${localStorage.getItem('current-folder')}`;
+    };
+}
+
 
 function loadProjectFile() {
     currentTab = 'project-file';

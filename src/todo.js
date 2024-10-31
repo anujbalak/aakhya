@@ -173,7 +173,7 @@ function todo() {
     ////////////// load available todos
     // window.onload = (event) => {
         const availableTodos = JSON.parse(localStorage.getItem('general todos'));
-        if (availableTodos.length > 0) {
+        if (availableTodos != null) {
             for (const todo in availableTodos) {
                 const taskValue = availableTodos[todo].taskContent
                 const newtask = new Task(taskValue);
@@ -186,7 +186,7 @@ function todo() {
     //////// load completed todos
 
     const availableCompletedTodos = JSON.parse(localStorage.getItem('completed tasks'));
-    if (availableCompletedTodos.length > 0) {
+    if (availableCompletedTodos != null) {
         for (const completedTodo in availableCompletedTodos) {
             const taskValue = availableCompletedTodos[completedTodo].taskContent;
             const newCompletedTodo = new CompletedTask(taskValue);

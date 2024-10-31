@@ -36,7 +36,7 @@ function projectFile() {
     let completedTasklist = []
 
     class Task {
-        constructor(taskContent, taskStatus) {
+        constructor(taskContent, taskFolder) {
             this.taskContent = taskContent;
             // this.taskStatus = taskStatus;
         }
@@ -59,6 +59,8 @@ function projectFile() {
         const projectName = localStorage.getItem('current-folder')
         return projectName
     }
+
+    const projectName = getFolderName();
     
     function task(taskValue) {
         const taskContainer = document.createElement('div');
@@ -78,8 +80,8 @@ function projectFile() {
         taskText.textContent = taskValue;
         checkbox.setAttribute('type', 'checkbox')
         checkbox.setAttribute('name', 'checkbox');
-        const folderName = getFolderName();
-        taskFolderName.textContent = `#${folderName}`;
+        
+        taskFolderName.textContent = `#${projectName}`;
         removeTaskBtn.textContent = 'ˣ';
         
         taskContainer.appendChild(checkbox);
@@ -118,12 +120,12 @@ function projectFile() {
     }
     
     function removeCompletedTasks(taskStatus, taskContent) {
-        if (taskStatus === true) {
+        // if (taskStatus === true) {
             updateCompletedTasklist(taskContent)
             saveCompletedTasksInStorage();
             removeTodofromTodolist(taskContent);
             removeSavedTodo(taskContent);
-        }
+        // }
     }
 
     function updateCompletedTasklist(taskContent) {
@@ -160,14 +162,13 @@ function projectFile() {
     }
     
     function removeSavedTodo(currentTodo) {
-        const SAVED_TODOS= JSON.parse(localStorage.getItem('general todos'));
+        const SAVED_TODOS= JSON.parse(localStorage.getItem(`${projectName}-task`));
         for (let TODO in SAVED_TODOS) {
             if(SAVED_TODOS[TODO].taskContent === currentTodo) {
-                localStorage.removeItem('general todos');
+                localStorage.removeItem(`${projectName}-task`);
                 saveTodo();
             } else { }
         }
-        
     }
     
     function addTaskInDOM() {
@@ -176,18 +177,16 @@ function projectFile() {
         task(taskText);
     }
     
-    let currentTodos = 0
     function saveTodo(taskText) { 
-        localStorage.setItem('general todos', JSON.stringify(tasklist));
-        currentTodos += 1;
+        localStorage.setItem(`${projectName}-task`, JSON.stringify(tasklist));
     }
     
-
+    const test = [ { t: "something", p: "project"},{ t: "not something", p: "not project"} ]
  
     ////////////// load available todos
     // window.onload = (event) => {
-        const availableTodos = JSON.parse(localStorage.getItem('general todos'));
-        if (availableTodos.length > 0) {
+        const availableTodos = JSON.parse(localStorage.getItem(`${projectName}-task`));
+        if (availableTodos != null) {
             for (const todo in availableTodos) {
                 const taskValue = availableTodos[todo].taskContent
                 const newtask = new Task(taskValue);
@@ -200,7 +199,7 @@ function projectFile() {
     //////// load completed todos
 
     const availableCompletedTodos = JSON.parse(localStorage.getItem('completed tasks'));
-    if (availableCompletedTodos.length > 0) {
+    if (availableCompletedTodos != null) {
         for (const completedTodo in availableCompletedTodos) {
             const taskValue = availableCompletedTodos[completedTodo].taskContent;
             const newCompletedTodo = new CompletedTask(taskValue);

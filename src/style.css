@@ -15,9 +15,10 @@ body {
     font-family: 'Syne Mono', monospace;
     font-size: 1.5rem;
     display: grid;
-    grid-template-rows: 100px 70px 1fr;
+    grid-template-rows: minmax(100px 1fr) 70px 1fr;
     /* font-family: 'Share Tech Mono', monospace, 'Syne Mono'; */
 }
+
 
 .flex-container {
     display: flex;
@@ -26,21 +27,31 @@ body {
 }   
 
 /******************************* header **************************/
-header {
+.header {
+    display: grid;
+    grid-template-columns: 1fr 100px;
     justify-content: space-between;
     align-items: center;
 }
 .dir-container {
+    display: flex;
+    flex-wrap: wrap;
     margin-left: 10px;
     
 }
 .date-container {
+    display: grid;
+    justify-self: end;
     margin-right: 10px;
 }
 
 .present-date {
-    font-size: 1.2rem;
+    font-size: 1rem;
     opacity: 40%;
+}
+.current-time {
+    justify-self: end;
+    font-size: 1.3rem;
 }
 
 .title-text {
@@ -54,20 +65,21 @@ header {
 /**************************** nav ****************************/
 
 .nav-container {
-    margin: 10px 0 10px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 10px 5px;
     align-content: center;
-    justify-content: center;
-    gap: 15%;
+    justify-items: center;
     /* background-color: #eee; */
 }
 
-.todo-btn, .project-btn {
-    font-size: 1.5rem;
+.todo-btn, .project-btn, .completed-tasks-btn {
+    font-size: 1.2rem;
     font-family: 'Share Tech Mono', monospace;
     border: none;
     background-color: transparent;
     color: #eee;
-    padding: 7px 15px;
+    padding: 7px 0.4em;
 }
 
 
@@ -106,8 +118,8 @@ header {
     background-color: transparent;
 }
 
-#addBtn, .new-project-btn {
-    font-size: 2rem;
+#addBtn, .new-project-btn, .clear-all-task-btn {
+    font-size: 1.5rem;
     width: 60%;
     color: #eee;
     background-color: transparent;
@@ -115,7 +127,7 @@ header {
     border: 1px solid #ff8576;
 }
 
-#addBtn:hover, #addBtn:focus, .new-project-btn:hover, .new-project-btn:focus {
+#addBtn:hover, #addBtn:focus, .new-project-btn:hover, .new-project-btn:focus, .clear-all-task-btn:hover, .clear-all-task-btn:focus {
     background-color: #ff8576;
     color: #eee;
 }
@@ -153,7 +165,7 @@ hr {
     place-self: center;
 }
 
-.task-container {
+.task-container, .completed-task-container {
     margin: 3%;
     border-bottom: solid 1.5px #ff8576;
     display: grid;
@@ -199,7 +211,7 @@ input.checkbox:checked {
 
 /* ------------------------------ projects--------------------------- */
 
-.new-project-btn-container, .new-project-container {
+.new-project-btn-container, .new-project-container, .clear-all-task-btn-container {
     grid-row: 1 / 2;
     justify-content: center;
     align-items: center;
@@ -269,6 +281,10 @@ input.checkbox:checked {
     justify-content: end;
 }
 
+.add-new-project-btn:hover, .add-new-project-btn:focus {
+    background-color: #ff8576;
+    color: #eee;
+}
 .project-icon {
     filter: url('./assets/folder-logo.svg');
     width: 30px;
@@ -322,8 +338,6 @@ input.checkbox:checked {
     grid-template-rows: 1fr minmax(20px);
 }
 
-#projectFilePage div.todolist div.task-container p.task-text {
-}
 
 #projectFilePage div.todolist div.task-container div.task-folder-container {
     grid-column: 2 / 3;
@@ -345,3 +359,141 @@ input.checkbox:checked {
     font-weight: 600;
 }
 
+/* ----------completed tasks---------------- */
+
+.tool-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#completedTaskPage {
+    display: grid;
+    grid-template-rows: 80px 1fr;
+}
+
+.completed-task-container {
+    grid-template-columns: 1fr 30px;
+}
+
+.completed-task-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    text-decoration: line-through;
+    opacity: 70%;
+}
+
+.clear-all-task-btn-container {
+    margin-bottom: 20px;
+}
+
+
+/* ------------dialog------------- */
+
+form.form {
+    display: grid;
+    grid-template-rows: 1.3em 1fr 2em;
+}
+
+dialog {
+    width: max-content;
+    justify-content: center;
+    background-color: #292726;
+    border: #ff8576 solid 1px;
+    font-family: monospace;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+}
+
+dialog .close-btn-container {
+    display: grid;
+}
+
+dialog .close-btn {
+    margin-right: 10px;
+    font-weight: 700;
+    color: #eee;
+    font-size: 1.3rem;
+    align-self: center;
+    border: none;
+    justify-self: end;
+    background-color: transparent;
+}
+
+dialog .msg-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px;
+}
+
+dialog .msg {
+    font-size: 1.4rem;
+    text-align: center;
+    background-color: transparent;
+    color: #eee;
+
+}
+
+dialog .confirmation-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+dialog .cancel-btn, dialog .ok-btn {
+    font-size: 1.2rem;
+    padding: 0.5em;
+    background-color: #ff8576;
+    border: none;
+}
+
+dialog .ok-btn:hover, dialog .ok-btn:focus, dialog .cancel-btn:hover, dialog.cancel-btn:focus  {
+    box-shadow: 0 0 0 0.125rem #292726, 0 0 0 0.2rem #ff8576;
+}
+
+dialog .close-btn:hover, dialog .close-btn:focus {
+    box-shadow: 0 0 0 0.125rem #292726, 0 0 0 0.2rem #eee;
+} 
+
+
+
+
+
+/* -----------media query--------------- */
+
+@media only screen and (min-width: 800px ) {
+    body {
+        height: 100vh;
+        grid-template-columns: minmax(200px, 300px) 1fr;
+        grid-template-rows: 100px 1fr;
+    }
+
+    div.nav-container {
+        grid-area: 1 / 1 / 3 / 2;
+        gap: 20px;
+        padding-top: 20px;
+        align-items: center;
+        display: flex;
+        margin: 0;
+        background-color: #2a2625;
+        flex-direction: column;
+        border-right: 1px #ff8576 solid;
+    }
+
+    content#content {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    header.header {
+        grid-column: 2 / 3;
+    }
+
+    .project-btn-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+
+}

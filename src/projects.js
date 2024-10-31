@@ -90,6 +90,7 @@ function projects() {
         const folder = new Image();
         folder.src = folderIcon;
         folder.classList.add('project-icon');
+        folder.innerText = recentProjectName;
         projectContainer.appendChild(folder);
         
         projectName.textContent = recentProjectName;
@@ -186,7 +187,7 @@ function projects() {
     
     
     const availableProjects = JSON.parse(localStorage.getItem('project names'));
-    if (availableProjects.length > 0) {
+    if (availableProjects != null) {
         for (let project in availableProjects) {
             const PROJECT_NAME = availableProjects[project].projectContent;
             const NEW_PROJECT = new Project(PROJECT_NAME);
@@ -202,11 +203,21 @@ function projects() {
     }
 
     function currentFolder() {
-        const projectNodeList = document.querySelectorAll('p.project-name');
+        const projectNameNodeList = document.querySelectorAll('p.project-name');
+        const projectIconNodeList = document.querySelectorAll('img.project-icon');
+
+        let projectNodeList = []
+
+        projectNameNodeList.forEach(nameNode => {
+            projectNodeList.push(nameNode);
+        });
+        projectIconNodeList.forEach(iconNode => {
+            projectNodeList.push(iconNode)
+        })
+    
         projectNodeList.forEach((projectNode) => {
             const projectName = projectNode.textContent;
             projectNode.addEventListener('click', () => {
-                localStorage.setItem(projectName, projectName);
                 localStorage.setItem('current-folder',projectName)
             })
         });
